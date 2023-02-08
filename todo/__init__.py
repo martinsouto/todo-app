@@ -11,6 +11,10 @@ def create_app():
         DATABASE_PASSWORD=os.environ.get('FLASK_DATABASE_PASSWORD'),
         DATABASE=os.environ.get('FLASK_DATABASE'),
     )
+    
+    from . import db
+
+    db.init_app(app)
 
     @app.route('/test')
     def test():
