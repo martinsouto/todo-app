@@ -2,7 +2,7 @@ import mysql.connector
 import click
 from flask import current_app, g
 from flask.cli import with_appcontext
-#from .schema import instructions
+from .schema import instructions
 
 def get_db():
     if 'db' not in g:
@@ -21,5 +21,18 @@ def close_db(e=None):
     if db is not None:
         db.close()
 
+def init_db():
+    db, c = get_db()
+    for i in instructions:
+        c.execute(i)
+    db.commit()
+
+@click.command('init-db') #to create the database's tables the command is: flask init-db
+@with_appcontext
+def init_db_command():
+    init_db()
+    click.echo('Database initialized')
+
 def init_app(app):
     app.teardown_appcontext(close_db)
+    app.cli.add_command(init_db_command)
