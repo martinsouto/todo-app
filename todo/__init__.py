@@ -1,5 +1,5 @@
 import os
-from flask import Flask
+from flask import Flask, render_template
 
 def create_app():
     app = Flask(__name__)
@@ -16,8 +16,12 @@ def create_app():
 
     db.init_app(app)
 
+    from todo.resources import auth
+
+    app.register_blueprint(auth.bp)
+
     @app.route('/test')
     def test():
-        return 'This is a test route'
+        return render_template('test.html')
     
     return app
