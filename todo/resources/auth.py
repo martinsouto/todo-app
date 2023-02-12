@@ -51,3 +51,10 @@ def login():
 def logout():
     session.clear()
     return redirect(url_for('test'))
+
+@bp.before_app_request
+def load_logged_in_user():
+    if session.get('user_id') is None:
+        g.user = None
+    else:
+        g.user = User.find_by_id(session.get('user_id'))

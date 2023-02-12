@@ -8,6 +8,12 @@ class User(object):
         return c.fetchone()
     
     @classmethod
+    def find_by_id(cls, id):
+        db, c = get_db()
+        c.execute("select * from user where id = %s", (id,))
+        return c.fetchone()
+    
+    @classmethod
     def create(cls, username, password):
         db, c = get_db()
         c.execute("insert into user (username, password) values (%s, %s)", (username, password))
