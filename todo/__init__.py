@@ -16,9 +16,10 @@ def create_app():
 
     db.init_app(app)
 
-    from todo.resources import auth
+    from todo.resources import auth, todo
 
     app.register_blueprint(auth.bp)
+    app.register_blueprint(todo.bp)
 
     @app.route('/test')
     def test():

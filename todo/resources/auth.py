@@ -18,8 +18,8 @@ def register():
         elif User.find_by_username(username) is not None:
             error = "User {} already exists, try a different username".format(username)
         else:
-            User.create(username,generate_password_hash(password)) #generate_password_hash(password) generaba una contra muy larga para el campo
-            return redirect(url_for('test')) #auth.login
+            User.create(username,generate_password_hash(password))
+            return redirect(url_for('auth.login')) 
         flash(error)
     
     return render_template('auth/register.html')
@@ -41,7 +41,7 @@ def login():
             else:
                 session.clear()
                 session['user_id'] = user['id']
-                return redirect(url_for('test')) #this route will be changed later
+                return redirect(url_for('todo.index'))
 
         flash(error)
 
@@ -50,7 +50,7 @@ def login():
 @bp.route('/logout', methods=['POST','GET'])
 def logout():
     session.clear()
-    return redirect(url_for('test'))
+    return redirect(url_for('todo.index'))
 
 @bp.before_app_request
 def load_logged_in_user():
@@ -58,3 +58,12 @@ def load_logged_in_user():
         g.user = None
     else:
         g.user = User.find_by_id(session.get('user_id'))
+
+def login_required(view):
+    @functools.wraps(view)
+    def wrapped_view(**kwargs):
+        if g.user is None:
+            return redirect(url_for('auth.login'))
+        return view(**kwargs)
+    
+    return wrapped_view
