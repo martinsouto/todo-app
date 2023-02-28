@@ -15,9 +15,20 @@ def index():
 @bp.route('/create', methods=['POST','GET'])
 @login_required
 def create():
-    return ''
+    if request.method == 'POST':
+        if request.form.get('create'):
+            todo_desc = request.form['description']
+            if not todo_desc:
+                flash("ToDo description can't be empty")
+            else:
+                Todo.create(g.user['id'], todo_desc)
+                return redirect(url_for('todo.index'))
+        else:
+            return redirect(url_for('todo.index'))
 
-@bp.route('/update', methods=['POST','GET'])
+    return render_template('todo/create.html')
+
+@bp.route('/update', methods=['POST','GET']) #/<int:id>/update
 @login_required
 def update():
-    return ''
+    return render_template('todo/update.html')
