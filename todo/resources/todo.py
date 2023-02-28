@@ -28,7 +28,36 @@ def create():
 
     return render_template('todo/create.html')
 
-@bp.route('/update', methods=['POST','GET']) #/<int:id>/update
+def todo_checks(todo):
+    if todo is None:
+        abort(404, 'The ToDo you are looking for does not exist')
+    elif g.user['id'] != todo['user_id']:
+        abort(403, 'You do not have access to this ToDo')
+
+@bp.route('/<int:id>/update', methods=['POST','GET'])
 @login_required
-def update():
-    return render_template('todo/update.html')
+def update(id):
+    todo = Todo.find_by_id(id)
+    todo_checks(todo)
+    
+    if request.method == 'POST':
+        print(request.form)
+        if request.form.get('update'):
+            todo_desc = request.form['description']
+            if not todo_desc:
+                flash("ToDo description can't be empty")
+            else:
+                todo_comp = True if request.form.get('completed') else False
+                Todo.update(id, todo_desc, todo_comp)
+                return redirect(url_for('todo.index'))
+        else:
+            return redirect(url_for('todo.index'))
+    return render_template('todo/update.html', todo=todo)
+
+@bp.route('/<int:id>/delete', methods=['POST'])
+@login_required
+def delete(id):
+    todo = Todo.find_by_id(id)
+    todo_checks(todo)
+    Todo.delete(id)
+    return redirect(url_for('todo.index'))
