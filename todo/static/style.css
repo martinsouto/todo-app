@@ -1,0 +1,59 @@
+*, *::before, *:after {
+    margin: 0;
+    padding: 0;
+    outline: 0;
+    box-sizing: border-box;
+}
+
+body {
+    font-family: 'Open Sans', sans-serif;
+    background-color: #f8f8f8;
+}
+
+.menu {
+    background-color: #3399ff;
+    height: 75px;
+    width: 100vw;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    box-shadow: 2px 0 4px rgba(0, 0, 0, .4);
+}
+
+.logo {
+    color: #fff;
+    font-size: 35px;
+    padding: 0 40px;
+    font-weight: bold;
+}
+
+.menu_items {
+    display: flex;
+    list-style: none;
+    margin-right: 30px;
+}
+
+.menu_items li {
+    border-radius: 3px;
+    margin: 0 5px;
+}
+
+.menu_items li a, .menu_items li span {
+    padding: 7px 13px;
+    font-size: 18px;
+    display: block;
+    color: #fff;
+}
+
+.menu_items li a {
+    text-decoration: none;
+}
+
+.menu_items li a:hover {
+    color: #cde1f5;
+    transition: .4s;
+}
+
+.content {
+    margin: 15px 40px;
+}
