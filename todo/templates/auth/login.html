@@ -6,12 +6,14 @@
 <h1>Login</h1>
 {% endblock%}
 
-{% block content%}
+{% block content %}
 <form action="" method="post">
-    <label for="username">Username</label>
-    <input type="text" name="username" id="username" required>
-    <label for="password">Password</label>
-    <input type="password" name="password" id="password" required>
-    <input type="submit" value="Login">
+    <p><label for="username">Username</label>
+    <br>
+    <input type="text" name="username" id="username" required></p>
+    <p><label for="password">Password</label>
+    <br>
+    <input type="password" name="password" id="password" required></p>
+    <p><input type="submit" value="Login"></p>
 </form>
 {% endblock%}

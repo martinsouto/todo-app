@@ -3,14 +3,15 @@
 {% block title %}Home{% endblock %}
 
 {% block header %}
-<h1>ToDos</h1>
-{% if g.user %}
-<a href="{{ url_for('todo.create') }}" class="action">New</a>
-{% endif %}
+<h1>Your ToDos</h1>
 {% endblock %}
 
 {% block content %}
-<ul>
+{% if g.user %}
+<a href="{{ url_for('todo.create') }}"><button class="new-todo">+</button></a>
+
+{% endif %}
+<ul class="todos">
     {% for todo in todos %}
     <li class="todo">
         <div>
@@ -27,9 +28,6 @@
             <a href="{{ url_for('todo.update', id=todo['id']) }}" class="update">Update</a>
         </div>
     </li>
-    {% if not loop.last %}
-    <hr>
-    {% endif %}
     {% endfor %}
 </ul>
 {% endblock %}
