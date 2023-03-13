@@ -1,0 +1,27 @@
+{% extends 'base.html' %}
+
+{% block header %}
+<h1>{% block title %}Update ToDo{% endblock %}</h1>
+{% endblock %}
+
+{% block content %}
+<form action="" method="post">
+    <p><label for="description">Description </label>
+    <br>
+    <input type="text" name="description" id="description" value="{{ todo['description']}}" required></p>
+    <p><label for="description">Completed </label>
+    
+    {% if todo['completed'] == False %}
+    <input type="checkbox" name="completed" id="completed">
+    {% else %}
+    <input type="checkbox" name="completed" id="completed" checked>
+    {% endif %}
+    </p>
+    <p><input type="submit" value="Update" name="update" id="update">
+    <input type="submit" value="Cancel" name="cancel" id="cancel" formnovalidate></p>
+</form>
+
+<form action="{{ url_for('todo.delete', id=todo['id'])}}" method="post">
+    <input type="submit" value="Delete" id="danger" onclick="return confirm('Are you sure you want to delete this ToDo?')">
+</form>
+{% endblock %}
